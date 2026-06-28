@@ -3,7 +3,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     queryBinding="xslt3">
     
-    <ns prefix="eac" uri="https://archivists.org/ns/eac/v3"/>
+    <ns prefix="eac" uri="https://standards.openpreservation.org/eac/v3.0.0"/>
     <ns prefix="eas" uri="http://archivists.org/eas/functions"/>
     <ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
     
