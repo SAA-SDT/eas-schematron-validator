@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EAS Validator (EAD 4, EAC 3, EAF 1)</title>
+        <link rel="stylesheet" media="screen" href="assets/css/local.css" />
+        <script src="vendor/xmllint.js"></script>
+        <script src="vendor/SaxonJS2.rt.js"></script>
+        <script src="assets/javascript/validator.js"></script>
+        
+        <!-- The next two lines are intentional references to 0kb files to get rid of browser errors -->
+        <link rel="icon" href="./favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+        <!-- 
+        This file was generated with code assistance from Google Gemini, before manual review and testing. 
+        Code reviews and suggestions most welcome! 
+        -->
+    </head>
+    <body>
+        
+        <h1>EAS XML Validator</h1>
+        <p>Upload an EAD 4.0, EAC-CPF 3.0, or EAF 1.0 file to validate it against the base schema as well as the EAS-provided schematron rules.</p>
+        
+        <div class="upload-section">
+            <label for="xml-upload"><strong>Select XML File:</strong></label><br><br>
+            <input type="file" id="xml-upload" accept=".xml" />
+            <div id="status-message" style="display: none;"></div>
+        </div>
+        
+        <div id="results-container">
+        </div>
+        
+        <script>
+        document.getElementById('xml-upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Use FileReader to turn the uploaded file into a text string
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const xmlString = e.target.result;
+                // Pass that string extracted from the file directly into validator.js
+                validateXML(xmlString);
+            };
+
+            reader.readAsText(file);
+        });
+    </script>
+        
+    </body>
+</html>

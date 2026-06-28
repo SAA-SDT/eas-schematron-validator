@@ -1,0 +1,36 @@
+# Mac System Files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+._*
+
+# Python
+venv/
+env/
+ENV/
+bin/
+lib/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDEs, temp logs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.log
+
+# Saxon-JS and Node dependencies
+node_modules/
+
+# Temporary Schematron/XSLT build artifacts
+src/intermediate.sch
+src/expanded.sch
+src/eas-driver.xsl
+
+# Ignore Tests directory until ready
+tests/
+
+# What else?

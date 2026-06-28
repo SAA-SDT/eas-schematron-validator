@@ -1,0 +1,17 @@
+{
+  "name": "eas-schematron-validator",
+  "version": "1.0.0",
+  "scripts": {
+    "serve": "http-server web -c-1",
+    "clean": "rm -rf build/ schematron/ && mkdir build schematron",
+    "build:ead": "xslt3 -xsl:scripts/flatten.xsl -s:src/ead.sch -o:schematron/ead.sch && xslt3 -xsl:scripts/flatten.xsl -s:src/ead.sch -o:build/ead-stage.sch build-target=sef && xslt3 -xsl:scripts/vendor/schxslt2/1.8/transpile.xsl -s:build/ead-stage.sch -o:build/ead-rules.xsl && xslt3 -xsl:build/ead-rules.xsl -export:web/ead-rules.sef.json -t -nogo -relocate:on",
+    "build:eac": "xslt3 -xsl:scripts/flatten.xsl -s:src/eac.sch -o:schematron/eac.sch && xslt3 -xsl:scripts/flatten.xsl -s:src/eac.sch -o:build/eac-stage.sch build-target=sef && xslt3 -xsl:scripts/vendor/schxslt2/1.8/transpile.xsl -s:build/eac-stage.sch -o:build/eac-rules.xsl && xslt3 -xsl:build/eac-rules.xsl -export:web/eac-rules.sef.json -t -nogo -relocate:on",
+    "build:eaf": "xslt3 -xsl:scripts/flatten.xsl -s:src/eaf.sch -o:schematron/eaf.sch && xslt3 -xsl:scripts/flatten.xsl -s:src/eaf.sch -o:build/eaf-stage.sch build-target=sef && xslt3 -xsl:scripts/vendor/schxslt2/1.8/transpile.xsl -s:build/eaf-stage.sch -o:build/eaf-rules.xsl && xslt3 -xsl:build/eaf-rules.xsl -export:web/eaf-rules.sef.json -t -nogo -relocate:on",
+    "build": "npm run clean && npm run build:ead && npm run build:eac && npm run build:eaf && rm -rf build"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "saxon-js": "^2.7.0",
+    "xslt3": "^2.7.0"
+  }
+}
