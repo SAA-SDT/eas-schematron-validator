@@ -50,13 +50,13 @@ async function validateXML(xmlString) {
 
     if (rootName === "ead") {
         rulesFile = "ead-rules.sef.json";
-        schemaUrl = "https://raw.githubusercontent.com/SAA-SDT/eas-schemas/refs/heads/development/xml-schemas/ead/ead-4-0.rng"; 
+        schemaUrl = "https://raw.githubusercontent.com/SAA-SDT/eas-schemas/refs/heads/release_2026_07/xml-schemas/ead/ead.rng";
     } else if (rootName === "eac") {
         rulesFile = "eac-rules.sef.json";
-        schemaUrl = "https://raw.githubusercontent.com/SAA-SDT/eas-schemas/refs/heads/development/xml-schemas/eac-cpf/eac.rng"; 
+        schemaUrl = "https://raw.githubusercontent.com/SAA-SDT/eas-schemas/refs/heads/release_2026_07/xml-schemas/eac-cpf/eac.rng";
     } else if (rootName === "eaf") {
         rulesFile = "eaf-rules.sef.json";
-        schemaUrl = "https://raw.githubusercontent.com/SAA-SDT/eas-schemas/refs/heads/development/xml-schemas/eaf/eaf.rng"; 
+        schemaUrl = "https://raw.githubusercontent.com/SAA-SDT/eas-schemas/refs/heads/release_2026_07/xml-schemas/eaf/eaf.rng";
     } else {
         const errorMsg = `Unsupported XML file. Root element found: <${rootName}>. Expected <ead>, <eac>, or <eaf>.`;
         console.error(errorMsg);
