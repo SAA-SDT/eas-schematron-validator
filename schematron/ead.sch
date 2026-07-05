@@ -2,7 +2,7 @@
 <schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt3"><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-05T18:41:37.016Z
+2026-07-05T19:25:48.77Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -219,7 +219,7 @@ ts-eas@archivists.org
             The notBefore attribute (<value-of select="@notBefore"/>) must not occur chronologically after the notAfter attribute (<value-of select="@notAfter"/>).
         </assert>
       </rule>
-      <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][matches(@standardDate, '[0-9](/|\.\.)[0-9]')]">
+      <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][matches(@standardDate, '/|\.\.')]">
          <let name="sep" value="if (contains(@standardDate, '..')) then '..' else '/'"/>
          <let name="begin_date" value="substring-before(@standardDate, $sep)"/>
          <let name="end_date" value="substring-after(@standardDate, $sep)"/>
