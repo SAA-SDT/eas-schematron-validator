@@ -12,6 +12,12 @@
         </report>
     </rule>
     
+    <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][@notBefore and @notAfter]">
+        <assert test="not(eas:is-after(@notBefore, @notAfter))">
+            The notBefore attribute (<value-of select="@notBefore"/>) must not occur chronologically after the notAfter attribute (<value-of select="@notAfter"/>).
+        </assert>
+    </rule>
+    
     <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][matches(@standardDate, '[0-9](/|\.\.)[0-9]')]">
         <let name="sep" value="if (contains(@standardDate, '..')) then '..' else '/'"/>
         <let name="begin_date" value="substring-before(@standardDate, $sep)"/>

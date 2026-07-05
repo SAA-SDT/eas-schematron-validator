@@ -7,6 +7,10 @@
         <assert test="@era = ('ce', 'bce')">Suggested values for the era attribute are 'ce' or 'bce'.</assert>
     </rule>
     <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][@notBefore | @notAfter | @standardDate]">
+        <report test="@standardDate and (@notBefore or @notAfter)">
+            A date element should not contain a standardDate attribute if it also contains a notBefore or notAfter attribute.
+        </report>
+        
         <assert test="every $d in (@notBefore, @notAfter, @standardDate[not(matches(., '\.\.|/'))]) satisfies (eas:is-valid-edtf($d) and eas:is-calendar-valid($d))">
             The notBefore, notAfter, and standardDate attributes must match the TS-EAS subprofile of valid ISO 8601 dates and be valid calendar dates.
         </assert>

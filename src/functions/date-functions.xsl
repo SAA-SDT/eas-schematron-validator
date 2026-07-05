@@ -12,7 +12,7 @@
         <xsl:variable name="seasons" select="'(2[1-4]|2[5-9]|3[0-9]|4[0-1])'"/>
         <xsl:variable name="Y" select="'[+-]?(([0-9X])([0-9X]{3})|([1-9X])([0-9X]{4,9}))'"/>
         <xsl:variable name="M" select="concat('(', $months, '|([0-1]X)|X[0-9]|XX)')"/>
-        <xsl:variable name="M_S" select="concat('(', $months, '|', $seasons, '|([0-1]X)|X[0-9]|XX)')"/>
+        <xsl:variable name="M_S" select="concat('(', $M, '|', $seasons)"/>
         <xsl:variable name="D" select="'(([0X][1-9X])|([012X][0-9X])|([3X][0-1X]))'"/>
         <xsl:variable name="T" select="'[T| ](0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(?:Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])$'"/>
         <xsl:variable name="iso8601-regex" select="concat( 
@@ -27,12 +27,33 @@
     <xsl:function name="eas:is-after" as="xs:boolean">
         <xsl:param name="start" as="xs:string"/>
         <xsl:param name="end" as="xs:string"/>
-        <xsl:variable name="cleanStart" select="replace($start, '[~%?]', '')"/>
-        <xsl:variable name="cleanEnd" select="replace($end, '[~%?]', '')"/>
         
-        <xsl:variable name="padStart" select="if (matches($cleanStart, '^-?\d{4}$')) then concat($cleanStart, '-01-01') else if (matches($cleanStart, '^-?\d{4}-\d{2}$')) then concat($cleanStart, '-01') else $cleanStart"/>
+        <xsl:variable name="strippedStart" select="replace($start, '[~%?]', '')"/>
+        <xsl:variable name="strippedEnd" select="replace($end, '[~%?]', '')"/>
         
-        <xsl:variable name="padEnd" select="if (matches($cleanEnd, '^-?\d{4}$')) then concat($cleanEnd, '-12-31') else if (matches($cleanEnd, '^-?\d{4}-\d{2}$')) then concat($cleanEnd, '-31') else $cleanEnd"/>
+        <xsl:variable name="cleanStart" select="
+            if (starts-with($strippedStart, '-')) 
+            then replace($strippedStart, 'X', '9') 
+            else replace($strippedStart, 'X', '0')
+            "/>
+        
+        <xsl:variable name="cleanEnd" select="
+            if (starts-with($strippedEnd, '-')) 
+            then replace($strippedEnd, 'X', '0') 
+            else replace($strippedEnd, 'X', '9')
+            "/>
+        
+        <xsl:variable name="padStart" select="
+            if (matches($cleanStart, '^-?\d{4}$')) then concat($cleanStart, '-01-01') 
+            else if (matches($cleanStart, '^-?\d{4}-\d{2}$')) then concat($cleanStart, '-01') 
+            else $cleanStart
+            "/>
+        
+        <xsl:variable name="padEnd" select="
+            if (matches($cleanEnd, '^-?\d{4}$')) then concat($cleanEnd, '-12-31') 
+            else if (matches($cleanEnd, '^-?\d{4}-\d{2}$')) then concat($cleanEnd, '-31') 
+            else $cleanEnd
+            "/>
         
         <xsl:sequence select="
             if ($padStart castable as xs:date and $padEnd castable as xs:date) 
