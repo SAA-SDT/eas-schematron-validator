@@ -6,7 +6,7 @@
         </assert>
     </rule>
     
-    <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][matches(@standardDate, '[0-9](/|\.\.)[0-9]')]">
+    <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][matches(@standardDate, '/|\.\.')]">
         <let name="sep" value="if (contains(@standardDate, '..')) then '..' else '/'"/>
         <let name="begin_date" value="substring-before(@standardDate, $sep)"/>
         <let name="end_date" value="substring-after(@standardDate, $sep)"/>
