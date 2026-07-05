@@ -2,7 +2,7 @@
 <schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt3"><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-05T17:57:34.513Z
+2026-07-05T18:41:45.764Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -213,6 +213,21 @@ ts-eas@archivists.org
         </assert>
       </rule>
    </pattern>
+   <pattern xmlns:eas="http://archivists.org/eas/functions" id="date-attribute-chronology">
+      <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][@notBefore and @notAfter]">
+         <assert test="not(eas:is-after(@notBefore, @notAfter))">
+            The notBefore attribute (<value-of select="@notBefore"/>) must not occur chronologically after the notAfter attribute (<value-of select="@notAfter"/>).
+        </assert>
+      </rule>
+      <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][matches(@standardDate, '[0-9](/|\.\.)[0-9]')]">
+         <let name="sep" value="if (contains(@standardDate, '..')) then '..' else '/'"/>
+         <let name="begin_date" value="substring-before(@standardDate, $sep)"/>
+         <let name="end_date" value="substring-after(@standardDate, $sep)"/>
+         <assert test="not(eas:is-after($begin_date, $end_date))">
+            The standardDate attribute value needs to be updated. The first date, <value-of select="$begin_date"/>, is encoded as occurring after the end date, <value-of select="$end_date"/>.
+        </assert>
+      </rule>
+   </pattern>
    <pattern xmlns:eas="http://archivists.org/eas/functions" id="date-formats">
       <rule context="*:eventDateTime[not(@standardDateTime)]">
          <assert test="normalize-space(.)">The eventDateTime element requires either a standardDateTime attribute or text.</assert>
@@ -235,7 +250,7 @@ ts-eas@archivists.org
         </report>
       </rule>
    </pattern>
-   <pattern id="date-validation-patterns">
+   <pattern id="date-leap-year-checks">
       <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes]">
          <let name="all-dates" value="for $attr in (@notAfter, @notBefore, @standardDate) return tokenize(replace($attr, '[%~?]', ''), '(\.\.)|(/)')[normalize-space()]"/>
          <report test="some $d in $all-dates satisfies matches($d, '-02-30|-02-31')">
@@ -245,17 +260,13 @@ ts-eas@archivists.org
             February 29th may only be encoded for valid leap years. One of your date attributes contains an invalid leap year.
         </report>
       </rule>
-      <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][@notBefore and @notAfter]">
-         <assert test="not(eas:is-after(@notBefore, @notAfter))">
-            The notBefore attribute (<value-of select="@notBefore"/>) must not occur chronologically after the notAfter attribute (<value-of select="@notAfter"/>).
-        </assert>
-      </rule>
-      <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][matches(@standardDate, '[0-9](/|\.\.)[0-9]')]">
-         <let name="sep" value="if (contains(@standardDate, '..')) then '..' else '/'"/>
-         <let name="begin_date" value="substring-before(@standardDate, $sep)"/>
-         <let name="end_date" value="substring-after(@standardDate, $sep)"/>
-         <assert test="not(eas:is-after($begin_date, $end_date))">
-            The standardDate attribute value needs to be updated. The first date, <value-of select="$begin_date"/>, is encoded as occurring after the end date, <value-of select="$end_date"/>.
+   </pattern>
+   <pattern id="date-range">
+      <rule context="*:dateRange[$check-date-attributes][*:fromDate and *:toDate]">
+         <let name="from_startValue" value="(*:fromDate/@standardDate, *:fromDate/@notBefore)[1]"/>
+         <let name="to_endValue" value="(*:toDate/@standardDate, *:toDate/@notAfter)[1]"/>
+         <assert test="not($from_startValue and $to_endValue) or not(eas:is-after($from_startValue, $to_endValue))">
+            The fromDate element (<value-of select="$from_startValue"/>) must not occur chronologically after its corresponding toDate element (<value-of select="$to_endValue"/>) within the dateRange.
         </assert>
       </rule>
    </pattern>
@@ -329,7 +340,7 @@ ts-eas@archivists.org
       <xsl:variable name="cleanEnd" select="             if (starts-with($strippedEnd, '-'))              then replace($strippedEnd, 'X', '0')              else replace($strippedEnd, 'X', '9')             "/>
       <xsl:variable name="padStart" select="             if (matches($cleanStart, '^-?\d{4,}$')) then concat($cleanStart, '-01-01')              else if (matches($cleanStart, '^-?\d{4,}-\d{2}$')) then concat($cleanStart, '-01')              else $cleanStart             "/>
       <xsl:variable name="padEnd" select="             if (matches($cleanEnd, '^-?\d{4,}$')) then concat($cleanEnd, '-12-31')              else if (matches($cleanEnd, '^-?\d{4,}-\d{2}$')) then concat($cleanEnd, '-31')              else $cleanEnd             "/>
-      <xsl:sequence select="             if ($padStart castable as xs:date and $padEnd castable as xs:date)              then xs:date($padStart) &gt; xs:date($padEnd)              else $padStart gt $padEnd             "/>
+      <xsl:sequence select="             if ($padStart castable as xs:date and $padEnd castable as xs:date)              then xs:date($padStart) &gt; xs:date($padEnd)              else if (starts-with($padStart, '-') and starts-with($padEnd, '-'))             then $padStart lt $padEnd              else $padStart gt $padEnd             "/>
    </xsl:function>
    <xsl:function xmlns:eas="http://archivists.org/eas/functions" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="eas:is-calendar-valid" as="xs:boolean">
       <xsl:param name="date" as="xs:string"/>
