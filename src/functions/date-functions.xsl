@@ -44,14 +44,14 @@
             "/>
         
         <xsl:variable name="padStart" select="
-            if (matches($cleanStart, '^-?\d{4}$')) then concat($cleanStart, '-01-01') 
-            else if (matches($cleanStart, '^-?\d{4}-\d{2}$')) then concat($cleanStart, '-01') 
+            if (matches($cleanStart, '^-?\d{4,}$')) then concat($cleanStart, '-01-01') 
+            else if (matches($cleanStart, '^-?\d{4,}-\d{2}$')) then concat($cleanStart, '-01') 
             else $cleanStart
             "/>
         
         <xsl:variable name="padEnd" select="
-            if (matches($cleanEnd, '^-?\d{4}$')) then concat($cleanEnd, '-12-31') 
-            else if (matches($cleanEnd, '^-?\d{4}-\d{2}$')) then concat($cleanEnd, '-31') 
+            if (matches($cleanEnd, '^-?\d{4,}$')) then concat($cleanEnd, '-12-31') 
+            else if (matches($cleanEnd, '^-?\d{4,}-\d{2}$')) then concat($cleanEnd, '-31') 
             else $cleanEnd
             "/>
         

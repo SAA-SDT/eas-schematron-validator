@@ -314,7 +314,7 @@ ts-eas@archivists.org
       <xsl:variable name="seasons" select="'(2[1-4]|2[5-9]|3[0-9]|4[0-1])'"/>
       <xsl:variable name="Y" select="'[+-]?(([0-9X])([0-9X]{3})|([1-9X])([0-9X]{4,9}))'"/>
       <xsl:variable name="M" select="concat('(', $months, '|([0-1]X)|X[0-9]|XX)')"/>
-      <xsl:variable name="M_S" select="concat('(', $M, '|', $seasons)"/>
+      <xsl:variable name="M_S" select="concat('(', $M, '|', $seasons, ')')"/>
       <xsl:variable name="D" select="'(([0X][1-9X])|([012X][0-9X])|([3X][0-1X]))'"/>
       <xsl:variable name="T" select="'[T| ](0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(?:Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])$'"/>
       <xsl:variable name="iso8601-regex" select="concat(              '^', $qualifier, $Y, $qualifier, '$', '|',              '^', $qualifier, $Y, $qualifier, '-', $qualifier, $M_S, $qualifier, '$', '|',              '^', $qualifier, $Y, $qualifier, '-', $qualifier, $M, $qualifier, '-', $qualifier, $D, $qualifier, '$', '|',              '^', $qualifier, $Y, $qualifier, '-', $qualifier, $M, $qualifier, '-', $qualifier, $D, $qualifier, $T, '$'              )"/>
