@@ -2,7 +2,7 @@
 <schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt3"><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-01T12:47:08.882Z
+2026-07-05T16:40:14.912Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -221,6 +221,9 @@ ts-eas@archivists.org
          <assert test="@era = ('ce', 'bce')">Suggested values for the era attribute are 'ce' or 'bce'.</assert>
       </rule>
       <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][@notBefore | @notAfter | @standardDate]">
+         <report test="@standardDate and (@notBefore or @notAfter)">
+            A date element should not contain a standardDate attribute if it also contains a notBefore or notAfter attribute.
+        </report>
          <assert test="every $d in (@notBefore, @notAfter, @standardDate[not(matches(., '\.\.|/'))]) satisfies (eas:is-valid-edtf($d) and eas:is-calendar-valid($d))">
             The notBefore, notAfter, and standardDate attributes must match the TS-EAS subprofile of valid ISO 8601 dates and be valid calendar dates.
         </assert>
@@ -241,6 +244,11 @@ ts-eas@archivists.org
          <report test="some $d in $all-dates satisfies (matches($d, '-02-29') and not(eas:is-leap-year($d)))">
             February 29th may only be encoded for valid leap years. One of your date attributes contains an invalid leap year.
         </report>
+      </rule>
+      <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][@notBefore and @notAfter]">
+         <assert test="not(eas:is-after(@notBefore, @notAfter))">
+            The notBefore attribute (<value-of select="@notBefore"/>) must not occur chronologically after the notAfter attribute (<value-of select="@notAfter"/>).
+        </assert>
       </rule>
       <rule context="(*:date | *:fromDate | *:toDate)[$check-date-attributes][matches(@standardDate, '[0-9](/|\.\.)[0-9]')]">
          <let name="sep" value="if (contains(@standardDate, '..')) then '..' else '/'"/>
@@ -306,7 +314,7 @@ ts-eas@archivists.org
       <xsl:variable name="seasons" select="'(2[1-4]|2[5-9]|3[0-9]|4[0-1])'"/>
       <xsl:variable name="Y" select="'[+-]?(([0-9X])([0-9X]{3})|([1-9X])([0-9X]{4,9}))'"/>
       <xsl:variable name="M" select="concat('(', $months, '|([0-1]X)|X[0-9]|XX)')"/>
-      <xsl:variable name="M_S" select="concat('(', $months, '|', $seasons, '|([0-1]X)|X[0-9]|XX)')"/>
+      <xsl:variable name="M_S" select="concat('(', $M, '|', $seasons)"/>
       <xsl:variable name="D" select="'(([0X][1-9X])|([012X][0-9X])|([3X][0-1X]))'"/>
       <xsl:variable name="T" select="'[T| ](0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(?:Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])$'"/>
       <xsl:variable name="iso8601-regex" select="concat(              '^', $qualifier, $Y, $qualifier, '$', '|',              '^', $qualifier, $Y, $qualifier, '-', $qualifier, $M_S, $qualifier, '$', '|',              '^', $qualifier, $Y, $qualifier, '-', $qualifier, $M, $qualifier, '-', $qualifier, $D, $qualifier, '$', '|',              '^', $qualifier, $Y, $qualifier, '-', $qualifier, $M, $qualifier, '-', $qualifier, $D, $qualifier, $T, '$'              )"/>
@@ -315,10 +323,12 @@ ts-eas@archivists.org
    <xsl:function xmlns:eas="http://archivists.org/eas/functions" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="eas:is-after" as="xs:boolean">
       <xsl:param name="start" as="xs:string"/>
       <xsl:param name="end" as="xs:string"/>
-      <xsl:variable name="cleanStart" select="replace($start, '[~%?]', '')"/>
-      <xsl:variable name="cleanEnd" select="replace($end, '[~%?]', '')"/>
-      <xsl:variable name="padStart" select="if (matches($cleanStart, '^-?\d{4}$')) then concat($cleanStart, '-01-01') else if (matches($cleanStart, '^-?\d{4}-\d{2}$')) then concat($cleanStart, '-01') else $cleanStart"/>
-      <xsl:variable name="padEnd" select="if (matches($cleanEnd, '^-?\d{4}$')) then concat($cleanEnd, '-12-31') else if (matches($cleanEnd, '^-?\d{4}-\d{2}$')) then concat($cleanEnd, '-31') else $cleanEnd"/>
+      <xsl:variable name="strippedStart" select="replace($start, '[~%?]', '')"/>
+      <xsl:variable name="strippedEnd" select="replace($end, '[~%?]', '')"/>
+      <xsl:variable name="cleanStart" select="             if (starts-with($strippedStart, '-'))              then replace($strippedStart, 'X', '9')              else replace($strippedStart, 'X', '0')             "/>
+      <xsl:variable name="cleanEnd" select="             if (starts-with($strippedEnd, '-'))              then replace($strippedEnd, 'X', '0')              else replace($strippedEnd, 'X', '9')             "/>
+      <xsl:variable name="padStart" select="             if (matches($cleanStart, '^-?\d{4}$')) then concat($cleanStart, '-01-01')              else if (matches($cleanStart, '^-?\d{4}-\d{2}$')) then concat($cleanStart, '-01')              else $cleanStart             "/>
+      <xsl:variable name="padEnd" select="             if (matches($cleanEnd, '^-?\d{4}$')) then concat($cleanEnd, '-12-31')              else if (matches($cleanEnd, '^-?\d{4}-\d{2}$')) then concat($cleanEnd, '-31')              else $cleanEnd             "/>
       <xsl:sequence select="             if ($padStart castable as xs:date and $padEnd castable as xs:date)              then xs:date($padStart) &gt; xs:date($padEnd)              else $padStart gt $padEnd             "/>
    </xsl:function>
    <xsl:function xmlns:eas="http://archivists.org/eas/functions" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="eas:is-calendar-valid" as="xs:boolean">
@@ -19297,180 +19307,6 @@ ts-eas@archivists.org
                <value>894</value>
                <value>716</value>
             </codes>
-         </context>
-         <context name="eas-best-practices">
-            <list name="addressLineType">
-               <value>county</value>
-               <value>country</value>
-               <value>district</value>
-               <value>municipality</value>
-               <value>postBox</value>
-               <value>postalCode</value>
-               <value>region</value>
-               <value>street</value>
-            </list>
-            <list name="agentType">
-               <value>corporateBody</value>
-               <value>family</value>
-               <value>group</value>
-               <value>human</value>
-               <value>mechanism</value>
-               <value>person</value>
-               <value>position</value>
-               <value>unknown</value>
-            </list>
-            <list name="audience">
-               <value>internal</value>
-               <value>external</value>
-            </list>
-            <list name="contactLineType">
-               <value>directions</value>
-               <value>email</value>
-               <value>fax</value>
-               <value>homepage</value>
-               <value>mobileNumber</value>
-               <value>phoneNumber</value>
-            </list>
-            <list name="coverage">
-               <value>part</value>
-               <value>whole</value>
-            </list>
-            <list name="descriptionOfComponentsType">
-               <value>analyticOverview</value>
-               <value>combined</value>
-               <value>inDepth</value>
-            </list>
-            <list name="detailLevel">
-               <value>basic</value>
-               <value>extended</value>
-               <value>minimal</value>
-            </list>
-            <list name="extentType">
-               <value>carrier</value>
-               <value>materialType</value>
-               <value>spaceOccupied</value>
-            </list>
-            <list name="formAvailableType">
-               <value>analogOriginal</value>
-               <value>analogDerived</value>
-               <value>digitalOriginal</value>
-               <value>digitalDerived</value>
-            </list>
-            <list name="functionStatus">
-               <value>active</value>
-               <value>deleted</value>
-               <value>draft</value>
-               <value>final</value>
-               <value>inactive</value>
-               <value>obsolete</value>
-               <value>revised</value>
-               <value>unknown</value>
-            </list>
-            <list name="functionType">
-               <value>activity</value>
-               <value>function</value>
-            </list>
-            <list name="identityType">
-               <value>acquired</value>
-               <value>given</value>
-            </list>
-            <list name="level">
-               <value>class</value>
-               <value>collection</value>
-               <value>file</value>
-               <value>fonds</value>
-               <value>item</value>
-               <value>recordGroup</value>
-               <value>series</value>
-               <value>subfonds</value>
-               <value>subgroup</value>
-               <value>subseries</value>
-            </list>
-            <list name="maintenanceEventType">
-               <value>cancelled</value>
-               <value>created</value>
-               <value>deleted</value>
-               <value>derived</value>
-               <value>revised</value>
-               <value>unknown</value>
-               <value>updated</value>
-            </list>
-            <list name="maintenanceStatus">
-               <value>cancelled</value>
-               <value>deleted</value>
-               <value>deletedMerged</value>
-               <value>deletedReplaced</value>
-               <value>deletedSplit</value>
-               <value>derived</value>
-               <value>new</value>
-               <value>revised</value>
-            </list>
-            <list name="placeType">
-               <value>administrativeDivision</value>
-               <value>area</value>
-               <value>bodyOfWater</value>
-               <value>landElevation</value>
-               <value>populatedPlace</value>
-               <value>roadOrRailroad</value>
-               <value>spot</value>
-               <value>undersea</value>
-               <value>vegetation</value>
-            </list>
-            <list name="publicationStatus">
-               <value>approved</value>
-               <value>inProcess</value>
-               <value>published</value>
-            </list>
-            <list name="referredEntityType">
-               <value>corpName</value>
-               <value>famName</value>
-               <value>function</value>
-               <value>genreForm</value>
-               <value>geogName</value>
-               <value>name</value>
-               <value>occupation</value>
-               <value>persName</value>
-               <value>subject</value>
-               <value>title</value>
-            </list>
-            <list name="relationType">
-               <value>authority</value>
-               <value>familialOrganizational</value>
-               <value>hierarchical</value>
-               <value>identity</value>
-               <value>performance</value>
-               <value>provenance</value>
-               <value>related</value>
-               <value>sequential</value>
-               <value>spatial</value>
-               <value>subject</value>
-               <value>temporal</value>
-            </list>
-            <list name="status">
-               <value>alternative</value>
-               <value>authorized</value>
-               <value>ongoing</value>
-               <value>unknown</value>
-            </list>
-            <list name="targetType">
-               <value>corporateBody</value>
-               <value>family</value>
-               <value>function</value>
-               <value>group</value>
-               <value>instantiation</value>
-               <value>mechanism</value>
-               <value>person</value>
-               <value>place</value>
-               <value>position</value>
-               <value>record</value>
-               <value>recordPart</value>
-               <value>recordSet</value>
-               <value>resource</value>
-            </list>
-            <list name="unitDateType">
-               <value>bulk</value>
-               <value>inclusive</value>
-            </list>
          </context>
       </registry>
    </let>
