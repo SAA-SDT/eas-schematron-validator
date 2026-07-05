@@ -9,8 +9,10 @@
     
     <!-- swith to a catalog approach, if i can it to work with NPM -->
     <include href="modules/shared/codes.sch"/>
+    <include href="modules/shared/date-attribute-chronology.sch"/>
     <include href="modules/shared/date-formats.sch"/>
-    <include href="modules/shared/date-validation-patterns.sch"/>
+    <include href="modules/shared/date-leap-year.sch"/>
+    <include href="modules/shared/date-range.sch"/>
     <include href="modules/shared/maintenance-agency.sch"/>
     <include href="modules/shared/reference-attributes.sch"/>
     <include href="modules/shared/unique-ids.sch"/>

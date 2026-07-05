@@ -8,8 +8,10 @@
     <ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
     
     <include href="modules/shared/codes.sch"/>
+    <include href="modules/shared/date-attribute-chronology.sch"/>
     <include href="modules/shared/date-formats.sch"/>
-    <include href="modules/shared/date-validation-patterns.sch"/>
+    <include href="modules/shared/date-leap-year.sch"/>
+    <include href="modules/shared/date-range.sch"/>
     <include href="modules/shared/maintenance-agency.sch"/>
     <include href="modules/shared/reference-attributes.sch"/>
     <include href="modules/shared/unique-ids.sch"/>

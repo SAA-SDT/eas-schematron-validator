@@ -54,10 +54,12 @@
             else if (matches($cleanEnd, '^-?\d{4,}-\d{2}$')) then concat($cleanEnd, '-31') 
             else $cleanEnd
             "/>
-        
+                
         <xsl:sequence select="
             if ($padStart castable as xs:date and $padEnd castable as xs:date) 
             then xs:date($padStart) > xs:date($padEnd) 
+            else if (starts-with($padStart, '-') and starts-with($padEnd, '-'))
+            then $padStart lt $padEnd 
             else $padStart gt $padEnd
             "/>
     </xsl:function>
