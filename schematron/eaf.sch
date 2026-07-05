@@ -2,7 +2,7 @@
 <schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt3"><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-05T17:49:04.305Z
+2026-07-05T17:57:42.907Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -314,7 +314,7 @@ ts-eas@archivists.org
       <xsl:variable name="seasons" select="'(2[1-4]|2[5-9]|3[0-9]|4[0-1])'"/>
       <xsl:variable name="Y" select="'[+-]?(([0-9X])([0-9X]{3})|([1-9X])([0-9X]{4,9}))'"/>
       <xsl:variable name="M" select="concat('(', $months, '|([0-1]X)|X[0-9]|XX)')"/>
-      <xsl:variable name="M_S" select="concat('(', $M, '|', $seasons)"/>
+      <xsl:variable name="M_S" select="concat('(', $M, '|', $seasons, ')')"/>
       <xsl:variable name="D" select="'(([0X][1-9X])|([012X][0-9X])|([3X][0-1X]))'"/>
       <xsl:variable name="T" select="'[T| ](0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(?:Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])$'"/>
       <xsl:variable name="iso8601-regex" select="concat(              '^', $qualifier, $Y, $qualifier, '$', '|',              '^', $qualifier, $Y, $qualifier, '-', $qualifier, $M_S, $qualifier, '$', '|',              '^', $qualifier, $Y, $qualifier, '-', $qualifier, $M, $qualifier, '-', $qualifier, $D, $qualifier, '$', '|',              '^', $qualifier, $Y, $qualifier, '-', $qualifier, $M, $qualifier, '-', $qualifier, $D, $qualifier, $T, '$'              )"/>
