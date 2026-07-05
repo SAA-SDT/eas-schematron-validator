@@ -4,6 +4,7 @@ import os
 import csv
 import io
 import re
+import sys
 
 registry_config = {
     "xhtml_matrix": {
@@ -94,7 +95,7 @@ def fetch_bcp47(url):
     
     except Exception as e:
         print(f"Error BCP47: {e}");
-        return None
+        sys.exit(1)
     
 def fetch_iso639_1(url):
     try:
@@ -110,7 +111,7 @@ def fetch_iso639_1(url):
 
     except Exception as e:
         print(f"Error 639-1: {e}");
-        return None
+        sys.exit(1)
         
 def fetch_iso639_2(url):
     try:
@@ -145,7 +146,7 @@ def fetch_iso639_2(url):
         }
     except Exception as e:
         print(f"Error 639-2: {e}");
-        return None
+        sys.exit(1)
 
 def fetch_iso639_3(url):
     try:
@@ -160,7 +161,7 @@ def fetch_iso639_3(url):
 
     except Exception as e:
         print(f"Error 639-3: {e}");
-        return None
+        sys.exit(1)
 
 def fetch_iso15924(url):
     try:
@@ -175,7 +176,7 @@ def fetch_iso15924(url):
 
     except Exception as e:
         print(f"Error 15924: {e}");
-        return None
+        sys.exit(1)
 
 def fetch_iso3166(url):
     try:
@@ -196,7 +197,7 @@ def fetch_iso3166(url):
     
     except Exception as e:
         print(f"Error 3166: {e}");
-        return None
+        sys.exit(1)
         
 def fetch_eas_best_practices(api_url):
     """Fetches and parses markdown value lists from TS-EAS Best Practices repo where the ## header is the value."""
@@ -235,7 +236,7 @@ def fetch_eas_best_practices(api_url):
     
     except Exception as e:
         print(f"Error fetching EAS BP: {e}");
-        return None
+        sys.exit(1)
 
 
 def main():

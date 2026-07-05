@@ -28,6 +28,8 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Registry Generator
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/build-registry.py
 
       - name: Setup Node.js
@@ -40,6 +42,22 @@ jobs:
 
       - name: Build Schematron and SEF files
         run: npm run build
+
+      - name: Check generated files 
+        run: |
+          FILE="web/eas-registry.xml"
+          
+          if [ ! -f "$FILE" ]; then
+            echo "::error::Validation failed: $FILE is missing!"
+            exit 1
+          fi
+          
+          # check if the file is too small (under 1000 bytes)
+          FILESIZE=$(stat -c%s "$FILE")
+          if [ "$FILESIZE" -lt 1000 ]; then
+            echo "::error::Validation failed: $FILE is suspiciously small ($FILESIZE bytes). Possible silent API failure."
+            exit 1
+          fi
 
       - name: Commit and Push changes
         run: |
