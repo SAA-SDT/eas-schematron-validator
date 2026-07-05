@@ -2,7 +2,7 @@
 <schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt3"><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-05T17:15:04.706Z
+2026-07-05T17:48:55.983Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -327,8 +327,8 @@ ts-eas@archivists.org
       <xsl:variable name="strippedEnd" select="replace($end, '[~%?]', '')"/>
       <xsl:variable name="cleanStart" select="             if (starts-with($strippedStart, '-'))              then replace($strippedStart, 'X', '9')              else replace($strippedStart, 'X', '0')             "/>
       <xsl:variable name="cleanEnd" select="             if (starts-with($strippedEnd, '-'))              then replace($strippedEnd, 'X', '0')              else replace($strippedEnd, 'X', '9')             "/>
-      <xsl:variable name="padStart" select="             if (matches($cleanStart, '^-?\d{4}$')) then concat($cleanStart, '-01-01')              else if (matches($cleanStart, '^-?\d{4}-\d{2}$')) then concat($cleanStart, '-01')              else $cleanStart             "/>
-      <xsl:variable name="padEnd" select="             if (matches($cleanEnd, '^-?\d{4}$')) then concat($cleanEnd, '-12-31')              else if (matches($cleanEnd, '^-?\d{4}-\d{2}$')) then concat($cleanEnd, '-31')              else $cleanEnd             "/>
+      <xsl:variable name="padStart" select="             if (matches($cleanStart, '^-?\d{4,}$')) then concat($cleanStart, '-01-01')              else if (matches($cleanStart, '^-?\d{4,}-\d{2}$')) then concat($cleanStart, '-01')              else $cleanStart             "/>
+      <xsl:variable name="padEnd" select="             if (matches($cleanEnd, '^-?\d{4,}$')) then concat($cleanEnd, '-12-31')              else if (matches($cleanEnd, '^-?\d{4,}-\d{2}$')) then concat($cleanEnd, '-31')              else $cleanEnd             "/>
       <xsl:sequence select="             if ($padStart castable as xs:date and $padEnd castable as xs:date)              then xs:date($padStart) &gt; xs:date($padEnd)              else $padStart gt $padEnd             "/>
    </xsl:function>
    <xsl:function xmlns:eas="http://archivists.org/eas/functions" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="eas:is-calendar-valid" as="xs:boolean">
