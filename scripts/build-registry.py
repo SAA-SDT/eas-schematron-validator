@@ -226,7 +226,6 @@ def fetch_eas_best_practices(api_url):
                 
                 print(f"-- Parsing {name} for header values...")
                 
-                # FIXED: Swapped 'requests' for 'github_session' and removed the undefined 'headers' argument
                 md_res = github_session.get(raw_url, timeout=20)
                 md_res.raise_for_status()
                 
