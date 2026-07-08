@@ -2,7 +2,7 @@
 <schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt3"><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-08T23:15:15.157Z
+2026-07-08T23:32:01.36Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -19390,32 +19390,35 @@ ts-eas@archivists.org
                <value>region</value>
                <value>street</value>
             </list>
-            <list name="agentType">
-               <value>corporateBody</value>
-               <value>family</value>
-               <value>group</value>
-               <value>human</value>
-               <value>mechanism</value>
-               <value>person</value>
-               <value>position</value>
-               <value>unknown</value>
-            </list>
-            <list name="audience">
-               <value>internal</value>
-               <value>external</value>
-            </list>
-            <list name="contactLineType">
-               <value>directions</value>
-               <value>email</value>
-               <value>fax</value>
-               <value>homepage</value>
-               <value>mobileNumber</value>
-               <value>phoneNumber</value>
-            </list>
             <list name="descriptionOfComponentsType">
                <value>analyticOverview</value>
                <value>combined</value>
                <value>inDepth</value>
+            </list>
+            <list name="detailLevel">
+               <value>basic</value>
+               <value>extended</value>
+               <value>minimal</value>
+            </list>
+            <list name="formAvailableType">
+               <value>analogOriginal</value>
+               <value>analogDerived</value>
+               <value>digitalOriginal</value>
+               <value>digitalDerived</value>
+            </list>
+            <list name="functionStatus">
+               <value>active</value>
+               <value>deleted</value>
+               <value>draft</value>
+               <value>final</value>
+               <value>inactive</value>
+               <value>obsolete</value>
+               <value>revised</value>
+               <value>unknown</value>
+            </list>
+            <list name="functionType">
+               <value>activity</value>
+               <value>function</value>
             </list>
             <list name="identityType">
                <value>acquired</value>
@@ -19452,11 +19455,6 @@ ts-eas@archivists.org
                <value>new</value>
                <value>revised</value>
             </list>
-            <list name="publicationStatus">
-               <value>approved</value>
-               <value>inProcess</value>
-               <value>published</value>
-            </list>
             <list name="referredEntityType">
                <value>corpName</value>
                <value>famName</value>
@@ -19468,6 +19466,19 @@ ts-eas@archivists.org
                <value>persName</value>
                <value>subject</value>
                <value>title</value>
+            </list>
+            <list name="relationType">
+               <value>authority</value>
+               <value>familialOrganizational</value>
+               <value>hierarchical</value>
+               <value>identity</value>
+               <value>performance</value>
+               <value>provenance</value>
+               <value>related</value>
+               <value>sequential</value>
+               <value>spatial</value>
+               <value>subject</value>
+               <value>temporal</value>
             </list>
             <list name="status">
                <value>alternative</value>
@@ -19489,6 +19500,10 @@ ts-eas@archivists.org
                <value>recordPart</value>
                <value>recordSet</value>
                <value>resource</value>
+            </list>
+            <list name="unitDateType">
+               <value>bulk</value>
+               <value>inclusive</value>
             </list>
          </context>
       </registry>
