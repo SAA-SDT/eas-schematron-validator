@@ -2,7 +2,7 @@
 <schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt3"><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-08T23:32:01.36Z
+2026-07-08T23:50:47.407Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -19390,6 +19390,32 @@ ts-eas@archivists.org
                <value>region</value>
                <value>street</value>
             </list>
+            <list name="agentType">
+               <value>corporateBody</value>
+               <value>family</value>
+               <value>group</value>
+               <value>human</value>
+               <value>mechanism</value>
+               <value>person</value>
+               <value>position</value>
+               <value>unknown</value>
+            </list>
+            <list name="audience">
+               <value>internal</value>
+               <value>external</value>
+            </list>
+            <list name="contactLineType">
+               <value>directions</value>
+               <value>email</value>
+               <value>fax</value>
+               <value>homepage</value>
+               <value>mobileNumber</value>
+               <value>phoneNumber</value>
+            </list>
+            <list name="coverage">
+               <value>part</value>
+               <value>whole</value>
+            </list>
             <list name="descriptionOfComponentsType">
                <value>analyticOverview</value>
                <value>combined</value>
@@ -19399,6 +19425,11 @@ ts-eas@archivists.org
                <value>basic</value>
                <value>extended</value>
                <value>minimal</value>
+            </list>
+            <list name="extentType">
+               <value>carrier</value>
+               <value>materialType</value>
+               <value>spaceOccupied</value>
             </list>
             <list name="formAvailableType">
                <value>analogOriginal</value>
@@ -19454,6 +19485,22 @@ ts-eas@archivists.org
                <value>derived</value>
                <value>new</value>
                <value>revised</value>
+            </list>
+            <list name="placeType">
+               <value>administrativeDivision</value>
+               <value>area</value>
+               <value>bodyOfWater</value>
+               <value>landElevation</value>
+               <value>populatedPlace</value>
+               <value>roadOrRailroad</value>
+               <value>spot</value>
+               <value>undersea</value>
+               <value>vegetation</value>
+            </list>
+            <list name="publicationStatus">
+               <value>approved</value>
+               <value>inProcess</value>
+               <value>published</value>
             </list>
             <list name="referredEntityType">
                <value>corpName</value>

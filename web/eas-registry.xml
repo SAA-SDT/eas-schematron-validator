@@ -18882,6 +18882,32 @@
       <value>region</value>
       <value>street</value>
     </list>
+    <list name="agentType">
+      <value>corporateBody</value>
+      <value>family</value>
+      <value>group</value>
+      <value>human</value>
+      <value>mechanism</value>
+      <value>person</value>
+      <value>position</value>
+      <value>unknown</value>
+    </list>
+    <list name="audience">
+      <value>internal</value>
+      <value>external</value>
+    </list>
+    <list name="contactLineType">
+      <value>directions</value>
+      <value>email</value>
+      <value>fax</value>
+      <value>homepage</value>
+      <value>mobileNumber</value>
+      <value>phoneNumber</value>
+    </list>
+    <list name="coverage">
+      <value>part</value>
+      <value>whole</value>
+    </list>
     <list name="descriptionOfComponentsType">
       <value>analyticOverview</value>
       <value>combined</value>
@@ -18891,6 +18917,11 @@
       <value>basic</value>
       <value>extended</value>
       <value>minimal</value>
+    </list>
+    <list name="extentType">
+      <value>carrier</value>
+      <value>materialType</value>
+      <value>spaceOccupied</value>
     </list>
     <list name="formAvailableType">
       <value>analogOriginal</value>
@@ -18946,6 +18977,22 @@
       <value>derived</value>
       <value>new</value>
       <value>revised</value>
+    </list>
+    <list name="placeType">
+      <value>administrativeDivision</value>
+      <value>area</value>
+      <value>bodyOfWater</value>
+      <value>landElevation</value>
+      <value>populatedPlace</value>
+      <value>roadOrRailroad</value>
+      <value>spot</value>
+      <value>undersea</value>
+      <value>vegetation</value>
+    </list>
+    <list name="publicationStatus">
+      <value>approved</value>
+      <value>inProcess</value>
+      <value>published</value>
     </list>
     <list name="referredEntityType">
       <value>corpName</value>
