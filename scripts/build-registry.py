@@ -6,6 +6,15 @@ import io
 import re
 import sys
 
+# Set up the authenticated session once
+github_session = requests.Session()
+github_session.headers.update({'User-Agent': 'EAS-Registry-Builder'})
+
+# Grab the token from the GitHub Actions environment and attach it
+token = os.environ.get("GITHUB_TOKEN")
+if token:
+    github_session.headers.update({'Authorization': f"Bearer {token}"})
+
 registry_config = {
     "xhtml_matrix": {
         "global_attributes": [
@@ -180,7 +189,7 @@ def fetch_iso15924(url):
 
 def fetch_iso3166(url):
     try:
-        response = requests.get(url, timeout=20)
+        response = github_session.get(url, timeout=20)
         response.raise_for_status()
         f = io.StringIO(response.text)
         reader = csv.DictReader(f)
@@ -202,8 +211,7 @@ def fetch_iso3166(url):
 def fetch_eas_best_practices(api_url):
     """Fetches and parses markdown value lists from TS-EAS Best Practices repo where the ## header is the value."""
     try:
-        headers = {'User-Agent': 'EAS-Registry-Builder'}
-        response = requests.get(api_url, headers=headers, timeout=20)
+        response = github_session.get(api_url, timeout=20)
         response.raise_for_status()
         files = response.json()
         
@@ -217,7 +225,10 @@ def fetch_eas_best_practices(api_url):
                 raw_url = file_info['download_url']
                 
                 print(f"-- Parsing {name} for header values...")
-                md_res = requests.get(raw_url, headers=headers, timeout=20)
+                
+                md_res = github_session.get(raw_url, timeout=20)
+                md_res.raise_for_status()
+                
                 # Handle potential BOM issues and normalize line endings
                 text_data = md_res.content.decode("utf-8-sig").replace('\ufeff', '')
                 
@@ -235,7 +246,7 @@ def fetch_eas_best_practices(api_url):
         return all_lists
     
     except Exception as e:
-        print(f"Error fetching EAS BP: {e}");
+        print(f"Error fetching EAS BP: {e}")
         sys.exit(1)
 
 
