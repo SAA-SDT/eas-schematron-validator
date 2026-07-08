@@ -7,7 +7,7 @@ on:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -72,6 +72,9 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "chore: automated registry and sef update [skip ci]"
+            
+            git pull --rebase origin main
+            
             git push
           fi
 
