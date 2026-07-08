@@ -56,7 +56,7 @@ ts-eas@archivists.org
                 </xsl:copy>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:element name="{name()}" namespace="{namespace-uri()}">
+                <xsl:element name="variable" namespace="http://www.w3.org/1999/XSL/Transform">
                     <xsl:attribute name="name" select="@name"/>
                     <xsl:copy-of select="document('../web/eas-registry.xml')/*"/>
                 </xsl:element>

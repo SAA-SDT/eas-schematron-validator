@@ -128,10 +128,10 @@
     </rule>
     
     <rule context="*:formattingExtension//*">
+        <let name="el-name" value="local-name()"/>
         <assert test="namespace-uri() = 'http://www.w3.org/1999/xhtml'">
             The element &lt;<name/>&gt; must be in the XHTML namespace.
         </assert>
-        <let name="el-name" value="local-name()"/>
         <assert test="exists(key('xhtml-element-key', $el-name, $registry))">
             The element '&lt;<value-of select="$el-name"/>&gt;' is not permitted within formattingExtension.
         </assert>
@@ -183,11 +183,6 @@
 
     <rule context="(@languageCode | @languageOfElement)[$check-language-codes][$language-encoding eq 'ietf-bcp-47']">
         <let name="val" value="normalize-space(.)"/>
-        
-        <assert test="matches($val, '^[a-zA-Z]{2,8}(-[a-zA-Z]{4})?(-([a-zA-Z]{2}|[0-9]{3}))?(-([a-zA-Z0-9]{5,8}|[0-9][a-zA-Z0-9]{3}))?$', 'i')">
-            The BCP 47 tag '<value-of select="$val"/>' is structurally invalid. It must follow the order: Language-Script-Region-Variant.
-        </assert>
-        
         <let name="tokens" value="tokenize($val, '-')"/>
         <let name="primary" value="$tokens[1]"/>
         <let name="invalid-subtags" value="$tokens[position() > 1][not(
@@ -196,7 +191,11 @@
             exists(key('bcp47-script-key', ., $registry)) or 
             exists(key('bcp47-region-key', ., $registry)) or
             exists(key('bcp47-variant-key', ., $registry))
-        )]"/>
+            )]"/>
+        
+        <assert test="matches($val, '^[a-zA-Z]{2,8}(-[a-zA-Z]{4})?(-([a-zA-Z]{2}|[0-9]{3}))?(-([a-zA-Z0-9]{5,8}|[0-9][a-zA-Z0-9]{3}))?$', 'i')">
+            The BCP 47 tag '<value-of select="$val"/>' is structurally invalid. It must follow the order: Language-Script-Region-Variant.
+        </assert>
         
         <assert test="matches($primary, '^q[a-t][a-z]$', 'i') or exists(key('bcp47-lang-key', $primary, $registry))">
             The primary language subtag '<value-of select="$primary"/>' is not a valid BCP 47 language.
