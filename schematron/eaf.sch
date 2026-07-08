@@ -2,7 +2,7 @@
 <schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt3"><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-05T19:26:07.157Z
+2026-07-08T23:15:32.835Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -116,10 +116,10 @@ ts-eas@archivists.org
         </assert>
       </rule>
       <rule context="*:formattingExtension//*">
+         <let name="el-name" value="local-name()"/>
          <assert test="namespace-uri() = 'http://www.w3.org/1999/xhtml'">
             The element &lt;<name/>&gt; must be in the XHTML namespace.
         </assert>
-         <let name="el-name" value="local-name()"/>
          <assert test="exists(key('xhtml-element-key', $el-name, $registry))">
             The element '&lt;<value-of select="$el-name"/>&gt;' is not permitted within formattingExtension.
         </assert>
@@ -163,12 +163,12 @@ ts-eas@archivists.org
       </rule>
       <rule context="(@languageCode | @languageOfElement)[$check-language-codes][$language-encoding eq 'ietf-bcp-47']">
          <let name="val" value="normalize-space(.)"/>
+         <let name="tokens" value="tokenize($val, '-')"/>
+         <let name="primary" value="$tokens[1]"/>
+         <let name="invalid-subtags" value="$tokens[position() &gt; 1][not(             matches(., '^Qaa[a-z]$|^Qab[a-x]$', 'i') or             matches(., '^Q[M-Z]$|^X[A-Z]$', 'i') or             exists(key('bcp47-script-key', ., $registry)) or              exists(key('bcp47-region-key', ., $registry)) or             exists(key('bcp47-variant-key', ., $registry))             )]"/>
          <assert test="matches($val, '^[a-zA-Z]{2,8}(-[a-zA-Z]{4})?(-([a-zA-Z]{2}|[0-9]{3}))?(-([a-zA-Z0-9]{5,8}|[0-9][a-zA-Z0-9]{3}))?$', 'i')">
             The BCP 47 tag '<value-of select="$val"/>' is structurally invalid. It must follow the order: Language-Script-Region-Variant.
         </assert>
-         <let name="tokens" value="tokenize($val, '-')"/>
-         <let name="primary" value="$tokens[1]"/>
-         <let name="invalid-subtags" value="$tokens[position() &gt; 1][not(             matches(., '^Qaa[a-z]$|^Qab[a-x]$', 'i') or             matches(., '^Q[M-Z]$|^X[A-Z]$', 'i') or             exists(key('bcp47-script-key', ., $registry)) or              exists(key('bcp47-region-key', ., $registry)) or             exists(key('bcp47-variant-key', ., $registry))         )]"/>
          <assert test="matches($primary, '^q[a-t][a-z]$', 'i') or exists(key('bcp47-lang-key', $primary, $registry))">
             The primary language subtag '<value-of select="$primary"/>' is not a valid BCP 47 language.
         </assert>
@@ -408,7 +408,7 @@ ts-eas@archivists.org
         </assert>
       </rule>
    </pattern>
-   <let name="registry">
+   <variable xmlns="http://www.w3.org/1999/XSL/Transform" name="registry">
       <registry xmlns="">
          <context name="xhtml-matrix">
             <global-attributes>
@@ -19314,44 +19314,10 @@ ts-eas@archivists.org
                <value>mobileNumber</value>
                <value>phoneNumber</value>
             </list>
-            <list name="coverage">
-               <value>part</value>
-               <value>whole</value>
-            </list>
             <list name="descriptionOfComponentsType">
                <value>analyticOverview</value>
                <value>combined</value>
                <value>inDepth</value>
-            </list>
-            <list name="detailLevel">
-               <value>basic</value>
-               <value>extended</value>
-               <value>minimal</value>
-            </list>
-            <list name="extentType">
-               <value>carrier</value>
-               <value>materialType</value>
-               <value>spaceOccupied</value>
-            </list>
-            <list name="formAvailableType">
-               <value>analogOriginal</value>
-               <value>analogDerived</value>
-               <value>digitalOriginal</value>
-               <value>digitalDerived</value>
-            </list>
-            <list name="functionStatus">
-               <value>active</value>
-               <value>deleted</value>
-               <value>draft</value>
-               <value>final</value>
-               <value>inactive</value>
-               <value>obsolete</value>
-               <value>revised</value>
-               <value>unknown</value>
-            </list>
-            <list name="functionType">
-               <value>activity</value>
-               <value>function</value>
             </list>
             <list name="identityType">
                <value>acquired</value>
@@ -19388,17 +19354,6 @@ ts-eas@archivists.org
                <value>new</value>
                <value>revised</value>
             </list>
-            <list name="placeType">
-               <value>administrativeDivision</value>
-               <value>area</value>
-               <value>bodyOfWater</value>
-               <value>landElevation</value>
-               <value>populatedPlace</value>
-               <value>roadOrRailroad</value>
-               <value>spot</value>
-               <value>undersea</value>
-               <value>vegetation</value>
-            </list>
             <list name="publicationStatus">
                <value>approved</value>
                <value>inProcess</value>
@@ -19415,19 +19370,6 @@ ts-eas@archivists.org
                <value>persName</value>
                <value>subject</value>
                <value>title</value>
-            </list>
-            <list name="relationType">
-               <value>authority</value>
-               <value>familialOrganizational</value>
-               <value>hierarchical</value>
-               <value>identity</value>
-               <value>performance</value>
-               <value>provenance</value>
-               <value>related</value>
-               <value>sequential</value>
-               <value>spatial</value>
-               <value>subject</value>
-               <value>temporal</value>
             </list>
             <list name="status">
                <value>alternative</value>
@@ -19450,11 +19392,7 @@ ts-eas@archivists.org
                <value>recordSet</value>
                <value>resource</value>
             </list>
-            <list name="unitDateType">
-               <value>bulk</value>
-               <value>inclusive</value>
-            </list>
          </context>
       </registry>
-   </let>
+   </variable>
 </schema>
