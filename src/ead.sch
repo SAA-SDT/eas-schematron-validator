@@ -15,6 +15,7 @@
     <include href="modules/shared/date-range.sch"/>
     <include href="modules/shared/maintenance-agency.sch"/>
     <include href="modules/shared/reference-attributes.sch"/>
+    <include href="modules/shared/status-restriction.sch"/>
     <include href="modules/shared/unique-ids.sch"/>
      
     <xsl:include href="functions/date-functions.xsl"/>
