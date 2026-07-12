@@ -2,7 +2,7 @@
 <schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt3"><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-08T23:51:04.857Z
+2026-07-12T20:16:55.578Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -307,6 +307,23 @@ ts-eas@archivists.org
       <rule context="*[@target]">
          <assert test="every $target in tokenize(normalize-space(@target), '\s+') satisfies (not($target = @id) and key('key-any-id', $target))">
             When you use the target attribute, it must be linked to another element by means of the id attribute and cannot reference itself.
+        </assert>
+      </rule>
+   </pattern>
+   <pattern id="tempory-patch-for-element-status-restrictions">
+      <rule context="*:agencyCode[@status] | *:otherAgencyCode[@status] | *:nameEntry[@status]">
+         <assert test="@status = ('alternative', 'authorized')">
+            <name/> can only be paired with a status value of 'alternative' or 'authorized'.
+        </assert>
+      </rule>
+      <rule context="*:textualDate[@status] | *:toDate[@status]">
+         <assert test="@status = ('ongoing', 'unknown')">
+            <name/> can only be paired with a status value of 'ongoing' or 'unknown'.
+        </assert>
+      </rule>
+      <rule context="*:date[@status] | *:fromDate[@status]">
+         <assert test="@status = 'unknown'">
+            <name/> must have a status value of 'unknown'.
         </assert>
       </rule>
    </pattern>
