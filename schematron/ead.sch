@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt3"><!--
+<schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://purl.oclc.org/dsdl/schematron" schematronEdition="2025" queryBinding="xslt3">
+<!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-19T15:10:53.012Z
+2026-07-19T15:35:33.228Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
                         
 Comments, questions, and suggestions may be addressed to: 
 ts-eas@archivists.org
-            --><ns prefix="ead" uri="https://standards.openpreservation.org/ead/v4"/>
+            -->
+<ns prefix="ead" uri="https://standards.openpreservation.org/ead/v4"/>
    <ns prefix="eas" uri="http://archivists.org/eas/functions"/>
    <ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
    <xsl:key name="iso639-1-key" match="context[@name='iso639-1']" use="value"/>
