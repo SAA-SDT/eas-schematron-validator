@@ -3,6 +3,8 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     queryBinding="xslt3">
     
+    <let name="registry" value="document('../web/eas-registry.xml')"/>
+    
     <ns prefix="ead" uri="https://standards.openpreservation.org/ead/v4"/>
     <ns prefix="eas" uri="http://archivists.org/eas/functions"/>
     <ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
@@ -23,7 +25,5 @@
     <!-- need to figure out the NPM build issues, but now i'm hardcoding each include rather than using a collection approach -->
     <include href="modules/eac-ead/eac-ead-codes.sch"/>
     <include href="modules/ead/ead-codes.sch"/>
-    
-    <let name="registry" value="document('../web/eas-registry.xml')"/>
      
 </schema>
