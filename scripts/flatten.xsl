@@ -25,7 +25,10 @@ https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-sta
 Comments, questions, and suggestions may be addressed to: 
 ts-eas@archivists.org
             </xsl:comment>
-            <xsl:apply-templates select="node()"/>
+            <xsl:apply-templates select="sch:ns"/>
+            <xsl:apply-templates select="sch:include" mode="copy-key"/>
+            <xsl:apply-templates select="xsl:*, sch:include"/>
+            <xsl:apply-templates select="sch:let" mode="registry-file"/>
         </xsl:copy>
     </xsl:template>
     
@@ -35,8 +38,11 @@ ts-eas@archivists.org
     </xsl:template>
     
     <xsl:template match="sch:include">
-        <xsl:apply-templates select="doc(resolve-uri(@href, base-uri(.)))//xsl:key" mode="copy-key"/>
         <xsl:apply-templates select="doc(resolve-uri(@href, base-uri(.)))/node()"/>
+    </xsl:template>
+    
+    <xsl:template match="sch:include" mode="copy-key">
+        <xsl:apply-templates select="doc(resolve-uri(@href, base-uri(.)))//xsl:key" mode="copy-key"/>
     </xsl:template>
     
     <xsl:template match="xsl:key|comment()"/>
@@ -45,7 +51,7 @@ ts-eas@archivists.org
         <xsl:copy-of select="."/>
     </xsl:template>
     
-    <xsl:template match="sch:let[@name='registry']">
+    <xsl:template match="sch:let[@name='registry']" mode="registry-file">
         <xsl:choose>
             <xsl:when test="$build-target = 'sef'">
                 <xsl:copy>
@@ -56,7 +62,7 @@ ts-eas@archivists.org
                 </xsl:copy>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:element name="variable" namespace="http://www.w3.org/1999/XSL/Transform">
+                <xsl:element name="xsl:variable" namespace="http://www.w3.org/1999/XSL/Transform">
                     <xsl:attribute name="name" select="@name"/>
                     <xsl:copy-of select="document('../web/eas-registry.xml')/*"/>
                 </xsl:element>

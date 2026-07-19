@@ -3,6 +3,8 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     queryBinding="xslt3">
     
+    <let name="registry" value="document('../web/eas-registry.xml')"/>
+    
     <ns prefix="eac" uri="https://standards.openpreservation.org/eac/v3"/>
     <ns prefix="eas" uri="http://archivists.org/eas/functions"/>
     <ns prefix="xs" uri="http://www.w3.org/2001/XMLSchema"/>
@@ -21,7 +23,5 @@
     
     <include href="modules/eac-ead/eac-ead-codes.sch"/>
     <include href="modules/eac-eaf/eac-eaf-codes.sch"/>
-    
-    <let name="registry" value="document('../web/eas-registry.xml')"/>
     
 </schema>
