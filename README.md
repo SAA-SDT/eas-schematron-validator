@@ -93,4 +93,54 @@ npm run serve
 
 Then, visit `http://127.0.0.1:8080/` to interact with the `web/index.html` Validation webpage.
 
+## Summary of Tests Provided
+
+The TS-EAS Schematron files currently specify the following tests:
+
+- When an encoding list is set to EASList in then control section, then the corresponding values for that list specified at https://saa-sdt.github.io/EAS-Best-Practices/docs/control/value-lists will be checked.
+
+- When a language encoding of iso639-1, iso639-2, iso639-2b, iso639-2t, iso639-3, or ietf-bcp-47 is set in the control section, then every languageOfElement
+ and languageCode attribute in the document will be tested against a regular expression pattern that adheres to that specific standard.
+  - For example, if either iso639-1 or ietf-bcp-47 is set in the control section, then a value of "fr" will validate because those two characters are found in the associated regular expression pattern.
+
+- The countryCode attribute will be validated against ISO 3166-1, unless eac:control/@contryEncoding is set to "otherCountryEncoding".
+
+- All scriptCode and scriptOfElement attributes will be validated against ISO 15924, unless eac:control/@scriptEncoding is set to "otherScriptEncoding".
+
+- The text value of the agencyCode element will be validated against a expression value that adheres to the ISO 15511 standard, unless eac:control/@repostioryEncoding is set to "otherRepositoryEncoding". The regular expression requires a prefix, a hyphen ("-"), and an identifier. 
+    - The prefix must either match a country code from ISO 3166-1, or it must include three to four characters in the A to Z range, regardless of case (e.g. "oclc", "EUR", and "SzB" are all valid prefixes). 
+    - The identifier that follows the hyphen can be 1 to 11 characters long and include a mix of A-Z characters (regardless of case), numeric characters from 0-9, as well as any of the additional three characters: ":", "/", and "-".
+
+- Every '@id' attribute will be tested in the document to ensure that each id only occurs once. This test is already carried out by the XSD version of the schema, but it is not enforced by the RNG version due to how RNG treats the xsd:ID datatype.
+
+- Every reference-related (e.g. '@sourceReference') and target attribute present will be tested to ensure that the attribute is linked elsewhere in the current file.
+    - @conventionDeclarationReference: must be linked to an @id found in a conventionDeclaration element.
+    - @localTypeDeclarationReference: must be linked to an @id found in a localTypeDeclaration element.
+    - @maintenanceEventReference: must be linked to an @id found in a maintenanceEvent element.
+    - @sourceReference:  must be linked either to an @id found in a source element or a citedRange element.
+    - @target: must be linked to an @id found somewhere within the current document.
+    
+- The maintanceAgency element within the control section must include either a non-empty agencyCode element or a non-empty agencyName element. It can also have both, but it needs one of the two at a minimum.
+
+- The eventDateTime element must include either a @standardDateTime attribute or text.
+
+- Any use of the @era attribute should be restricted to either 'ce' or 'bce'. 
+
+- Unless the dateEncoding within the control section is set to "otherDateEncoding", then a sub-profile of dates allowable by ISO 8601:2019, parts 1 and 2 (which includes EDTF dates), will be enforced. The Schematron file includes the following restrictions on the @notAfter, @notBefore, @standardDate attributes:
+    1. Valid dates within all three attributes may be composed of the following:
+        - a Year
+            - which may optionally start with a "+" or "-". 
+            - contain no less than 4 characters (e.g. year 100 must be encoded as 0100), and no more than 10 characters.
+            - contains numeric characters, or an X to indicate an unknown value, according to the new EDTF features provided in ISO 8601:2019. e.g. "192X" is valid.
+        - a Year, a hyphen separtor (intended to not be optional in our subprofile of ISO 8601), and a Season, which must have a value of 21 to 41, according to ISO 8601:2019
+        - a Year, a hyphen separator, and a Month, which must include a value from 01 (for January) to 12 (for December). Unknown values can optionally be indicated with an "X".
+        - a Year, a hyphen separator, a Month, a hyphen seprator, and a Day, which must be include two characters in the range of 01 to 31, with an optional X to indicate an unknown value. If the month is February, then 30 and 31 will be invalid values, and 29 should only be valid for leap years.
+        - a Year, a hyphen seprator, a Month, a hyphen seprator, a Day, and a Time, which can either start with a "T" or a " ".
+        - a qualifier that precedes or follows any of those parts. The valid qualifiers are "?" (i.e. uncertain), "~" (i.e. approximate), and "%" (i.e. uncertain and approximate). 
+    1. @notAfter and @notBefore must not contain any date ranges, which may be specified with ".." and "/". If date ranges are required, then those should only be encoded within a @standardDate attribute that is present on a date element (not a fromDate or toDate element). 
+    1. Further, though date ranges may start and end with "..", they should not start or end with a "/".
+    1. Last, regarding date ranges, only one range can be specified in our profile. In other words: 1800/1820 is valid, but 1800/1820..1830 would not be. Similarly, a single attribute that encodes a date set and range (e.g. 1800,1802,1807,1810..1820) would also not be valid. For that case, the dateSet element should be utlized instead.
+    
+- When XHTML is used within the formattingExtension element, then a subset of HTML elements and attributes will be asserted as valid within the context of the EAS schemas. See https://github.com/SAA-SDT/eas-schematron-validator/blob/75c901d435bda999a093b258e94af4dfed6de167/scripts/build-registry.py#L19-L58 for the current subset.
+
 
