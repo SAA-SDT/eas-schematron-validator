@@ -34,8 +34,8 @@ registry_config = {
         # Tables
         "table": [], "caption": [], 
         "thead": [], "tbody": [], "tfoot": [], "tr": [],
-        "th": ["colspan", "rowspan", "scope"],
-        "td": ["colspan", "rowspan", "headers"],
+        "th": ["abbr", "axis", "headers", "colspan", "rowspan", "scope"],
+        "td": ["abbr", "axis", "headers", "colspan", "rowspan", "scope"],
 
         # Inline Text
         "em": [], "strong": [], "dfn": [], "code": [], 
@@ -49,8 +49,8 @@ registry_config = {
         "del": ["cite", "datetime"],
 
         # Links and Media
-        "a": ["href", "rel", "target", "type"],
-        "img": ["src", "alt", "width", "height"],
+        "a": ["href", "rel", "target", "type", "name", "hreflang"],
+        "img": ["src", "alt", "width", "height", "longdesc"],
 
         # Ruby Annotations
         "ruby": [], "rt": [], "rp": []
