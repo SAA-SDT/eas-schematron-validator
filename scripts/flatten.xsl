@@ -11,13 +11,8 @@
     
     <xsl:mode on-no-match="shallow-copy"/>
     
-    <xsl:template match="sch:schema">
-        <xsl:copy>
-            <xsl:attribute name="schematronEdition" select="'2025'"/>
-            <!-- consider adding a schemaVersion -->
-            <xsl:apply-templates select="@*"/>
-            <xsl:value-of select="'&#xa;'"/>
-            <xsl:comment expand-text="true">
+    <xsl:template match="/">
+        <xsl:comment expand-text="true">
 This schematron file has been generated automatically, and was last updated at: 
 
 {current-dateTime()}
@@ -26,9 +21,16 @@ If you would like to contribute to this project, please see:
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
                         
 Comments, questions, and suggestions may be addressed to: 
-ts-eas@archivists.org
-            </xsl:comment>
-            <xsl:value-of select="'&#xa;'"/>
+ts-eas@archivists.org</xsl:comment>
+        <xsl:apply-templates/>
+    </xsl:template>
+    
+    <xsl:template match="sch:schema">
+        <xsl:copy>
+            <!-- consider adding a schemaVersion, but wait until schematronEdition is a valid attribute for default engines
+            <xsl:attribute name="schematronEdition" select="'2025'"/>
+            -->
+            <xsl:apply-templates select="@*"/>
             <xsl:apply-templates select="sch:ns"/>
             <xsl:apply-templates select="sch:include" mode="copy-key"/>
             <xsl:apply-templates select="xsl:*, sch:include"/>
