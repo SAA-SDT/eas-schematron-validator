@@ -39,14 +39,20 @@
       <element name="tfoot" />
       <element name="tr" />
       <element name="th">
+        <attribute name="abbr" />
+        <attribute name="axis" />
+        <attribute name="headers" />
         <attribute name="colspan" />
         <attribute name="rowspan" />
         <attribute name="scope" />
       </element>
       <element name="td">
+        <attribute name="abbr" />
+        <attribute name="axis" />
+        <attribute name="headers" />
         <attribute name="colspan" />
         <attribute name="rowspan" />
-        <attribute name="headers" />
+        <attribute name="scope" />
       </element>
       <element name="em" />
       <element name="strong" />
@@ -79,12 +85,15 @@
         <attribute name="rel" />
         <attribute name="target" />
         <attribute name="type" />
+        <attribute name="name" />
+        <attribute name="hreflang" />
       </element>
       <element name="img">
         <attribute name="src" />
         <attribute name="alt" />
         <attribute name="width" />
         <attribute name="height" />
+        <attribute name="longdesc" />
       </element>
       <element name="ruby" />
       <element name="rt" />

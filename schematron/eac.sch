@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-19T15:54:45.462Z
+2026-07-19T16:16:37.696Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -502,14 +502,20 @@ ts-eas@archivists.org-->
                <element name="tfoot"/>
                <element name="tr"/>
                <element name="th">
+                  <attribute name="abbr"/>
+                  <attribute name="axis"/>
+                  <attribute name="headers"/>
                   <attribute name="colspan"/>
                   <attribute name="rowspan"/>
                   <attribute name="scope"/>
                </element>
                <element name="td">
+                  <attribute name="abbr"/>
+                  <attribute name="axis"/>
+                  <attribute name="headers"/>
                   <attribute name="colspan"/>
                   <attribute name="rowspan"/>
-                  <attribute name="headers"/>
+                  <attribute name="scope"/>
                </element>
                <element name="em"/>
                <element name="strong"/>
@@ -542,12 +548,15 @@ ts-eas@archivists.org-->
                   <attribute name="rel"/>
                   <attribute name="target"/>
                   <attribute name="type"/>
+                  <attribute name="name"/>
+                  <attribute name="hreflang"/>
                </element>
                <element name="img">
                   <attribute name="src"/>
                   <attribute name="alt"/>
                   <attribute name="width"/>
                   <attribute name="height"/>
+                  <attribute name="longdesc"/>
                </element>
                <element name="ruby"/>
                <element name="rt"/>
