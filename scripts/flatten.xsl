@@ -13,7 +13,10 @@
     
     <xsl:template match="sch:schema">
         <xsl:copy>
+            <xsl:attribute name="schematronEdition" select="'2025'"/>
+            <!-- consider adding a schemaVersion -->
             <xsl:apply-templates select="@*"/>
+            <xsl:value-of select="'&#xa;'"/>
             <xsl:comment expand-text="true">
 This schematron file has been generated automatically, and was last updated at: 
 
@@ -25,6 +28,7 @@ https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-sta
 Comments, questions, and suggestions may be addressed to: 
 ts-eas@archivists.org
             </xsl:comment>
+            <xsl:value-of select="'&#xa;'"/>
             <xsl:apply-templates select="sch:ns"/>
             <xsl:apply-templates select="sch:include" mode="copy-key"/>
             <xsl:apply-templates select="xsl:*, sch:include"/>
