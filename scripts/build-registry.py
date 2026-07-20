@@ -17,45 +17,34 @@ if token:
 
 registry_config = {
     "xhtml_matrix": {
-        "global_attributes": [
-        "id", "class", "title", "lang", "xml:lang", "dir"
-    ],
-    "elements": {
-        # Headings and Blocks
-        "h1": [], "h2": [], "h3": [], "h4": [], "h5": [], "h6": [],
-        "div": [], "p": [], "br": [], "hr": [],
+        "elements": [
+            # Headings and Blocks
+            "h1", "h2", "h3", "h4", "h5", "h6",
+            "div", "p", "br", "hr",
 
-        # Lists
-        "ul": [],
-        "ol": ["start", "type", "reversed"],
-        "li": ["value"],
-        "dl": [], "dt": [], "dd": [],
+            # Lists
+            "ul", "ol", "li", "dl", "dt", "dd",
 
-        # Tables
-        "table": [], "caption": [], 
-        "thead": [], "tbody": [], "tfoot": [], "tr": [],
-        "th": ["abbr", "axis", "headers", "colspan", "rowspan", "scope"],
-        "td": ["abbr", "axis", "headers", "colspan", "rowspan", "scope"],
+            # Tables
+            "table", "caption", 
+            "thead", "tbody", "tfoot", "tr",
+            "th", "td",
 
-        # Inline Text
-        "em": [], "strong": [], "dfn": [], "code": [], 
-        "sub": [], "sup": [], "span": [], "abbr": [], "cite": [],
-        "b": [], "i": [], "small": [],
+            # Inline Text
+            "em", "strong", "dfn", "code", 
+            "sub", "sup", "span", "abbr", "cite",
+            "b", "i", "small",
 
-        # Quotes and Edits
-        "blockquote": ["cite"],
-        "q": ["cite"],
-        "ins": ["cite", "datetime"],
-        "del": ["cite", "datetime"],
+            # Quotes and Edits
+            "blockquote", "q", "ins", "del",
 
-        # Links and Media
-        "a": ["href", "rel", "target", "type", "name", "hreflang"],
-        "img": ["src", "alt", "width", "height", "longdesc"],
+            # Links and Media
+            "a", "img",
 
-        # Ruby Annotations
-        "ruby": [], "rt": [], "rp": []
-    }
-},
+            # Ruby Annotations
+            "ruby", "rt", "rp"
+        ]
+    },
     "remote_sources": {
         "bcp47": "https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry",
         "iso639_2": "https://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt",
@@ -257,23 +246,15 @@ def main():
     root = ET.Element("registry")
     stats = {}
 
-    # 1. XHTML Matrix (Updated to handle elements and attributes cleanly)
+    # 1. XHTML Matrix (Elements only)
     context = ET.SubElement(root, "context", {"name": "xhtml-matrix"})
     
-    # Build global attributes
-    globals_el = ET.SubElement(context, "global-attributes")
-    for attr in registry_config["xhtml_matrix"]["global_attributes"]:
-        ET.SubElement(globals_el, "attribute", {"name": attr})
-        
-    # Build elements and specific attributes
+    # Build elements
     elements_el = ET.SubElement(context, "xhtml-elements")
-    for el_name, specific_attrs in registry_config["xhtml_matrix"]["elements"].items():
-        el_node = ET.SubElement(elements_el, "element", {"name": el_name})
-        for attr in specific_attrs:
-            ET.SubElement(el_node, "attribute", {"name": attr})
+    for el_name in registry_config["xhtml_matrix"]["elements"]:
+        ET.SubElement(elements_el, "element", {"name": el_name})
             
-    stats["XHTML Elements"] = len(registry_config["xhtml_matrix"]["elements"])
-    stats["XHTML Global Attributes"] = len(registry_config["xhtml_matrix"]["global_attributes"])    
+    stats["XHTML Elements"] = len(registry_config["xhtml_matrix"]["elements"])  
     
 
     # 2. BCP 47

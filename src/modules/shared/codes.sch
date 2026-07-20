@@ -129,20 +129,11 @@
     
     <rule context="*:formattingExtension//*">
         <let name="el-name" value="local-name()"/>
-        <assert test="namespace-uri() = 'http://www.w3.org/1999/xhtml'">
-            The element &lt;<name/>&gt; must be in the XHTML namespace.
+        <assert test="$ns = ('http://www.w3.org/1999/xhtml', 'http://www.w3.org/1998/Math/MathML', 'http://www.w3.org/2000/svg')">
+            The element &lt;<name/>&gt; must be in the XHTML, MathML, or SVG namespace.
         </assert>
-        <assert test="exists(key('xhtml-element-key', $el-name, $registry))">
-            The element '&lt;<value-of select="$el-name"/>&gt;' is not permitted within formattingExtension.
-        </assert>
-    </rule>
-    
-    <rule context="*:formattingExtension//@*">
-        <let name="attr-name" value="local-name()"/>
-        <let name="parent-name" value="local-name(..)"/>
-        <assert test="exists(key('global-xhtml-attr-key', $attr-name, $registry)) or 
-            exists(key('element-xhmtl-attr-key', concat($parent-name, '|', $attr-name), $registry))">
-            The attribute '@<value-of select="$attr-name"/>' is not allowed on the &lt;<value-of select="$parent-name"/>&gt; element.
+        <assert test="$ns != 'http://www.w3.org/1999/xhtml' or exists(key('xhtml-element-key', $el-name, $registry))">
+            The XHTML element '&lt;<value-of select="$el-name"/>&gt;' is not permitted within formattingExtension.
         </assert>
     </rule>
     
