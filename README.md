@@ -143,5 +143,5 @@ The TS-EAS Schematron files currently specify the following tests:
     
 - When XHTML is used within the formattingExtension element, then the following subset of XHTML elements will be considered valid by the default TS-EAS Schematron file: https://github.com/SAA-SDT/eas-schematron-validator/blob/877250784d08f8cbadf436885c3ec021f792a0d7/scripts/build-registry.py#L20-L46
   
-  The NVDL schema will need to be used to handle all other XHTML validation, including the validation of attributes. When used, the NVDL schema will allow elements within formatingExtension to be associated with one of three namespaces:  XHTML (all eleements, unless the Schematron file is also used), MathML, and SVG.  
+  The NVDL schema will need to be used to handle all other XHTML validation, including the validation of attributes. When used, the NVDL schema will allow elements within formattingExtension to be associated with one of three namespaces:  XHTML (all eleements, unless the Schematron file is also used), MathML, and SVG.  
 
