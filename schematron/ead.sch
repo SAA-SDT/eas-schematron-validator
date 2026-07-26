@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-26T17:58:56.147Z
+2026-07-26T19:24:53.378Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -25,15 +25,12 @@ ts-eas@archivists.org-->
    <xsl:key name="bcp47-script-key" match="context[@name='bcp47']/subtags[@type='script']" use="value"/>
    <xsl:key name="bcp47-variant-key" match="context[@name='bcp47']/subtags[@type='variant']" use="value"/>
    <xsl:key name="xhtml-element-key" match="context[@name='xhtml-matrix']/xhtml-elements/element" use="@name"/>
-   <xsl:key name="global-xhtml-attr-key" match="context[@name='xhtml-matrix']/global-attributes/attribute" use="@name"/>
-   <xsl:key name="element-xhtml-attr-key" match="context[@name='xhtml-matrix']/xhtml-elements/element/attribute" use="concat(parent::element/@name, '|', @name)"/>
    <xsl:key name="eas-bp-key" match="context[@name='eas-best-practices']/list/value" use="concat(../@name, '|', .)"/>
    <xsl:key name="key-convention" match="*:control/*:conventionDeclaration" use="@id"/>
    <xsl:key name="key-localType" match="*:control/*:localTypeDeclaration" use="@id"/>
    <xsl:key name="key-maintenanceEvent" match="*:control/*:maintenanceHistory/*:maintenanceEvent" use="@id"/>
    <xsl:key name="key-source" match="*:control/*:sources/*:source | *:control/*:sources/*:source/*:citedRange" use="@id"/>
-   <xsl:key name="key-any-id" match="*" use="@id"/>
-   <xsl:key name="id-key" match="*[@id]" use="@id"/>
+   <xsl:key name="key-any-id" match="*[@id]" use="@id"/>
    <xsl:function xmlns:eas="http://archivists.org/eas/functions" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="eas:is-valid-edtf" as="xs:boolean">
       <xsl:param name="dateString" as="xs:string?"/>
       <xsl:variable name="qualifier" select="'[~%?]?'"/>
@@ -349,28 +346,28 @@ ts-eas@archivists.org-->
       </rule>
    </pattern>
    <pattern id="reference-attributes">
-      <rule context="*[@conventionDeclarationReference]">
-         <assert test="every $ref in tokenize(normalize-space(@conventionDeclarationReference), '\s+') satisfies (not($ref = @id) and key('key-convention', $ref))">
+      <rule context="@conventionDeclarationReference">
+         <assert test="every $ref in tokenize(normalize-space(.), '\s+') satisfies (not($ref = ../@id) and key('key-convention', $ref))">
             When you use the conventionDeclarationReference attribute, it must be linked to a valid conventionDeclaration element and cannot reference itself.
         </assert>
       </rule>
-      <rule context="*[@localTypeDeclarationReference]">
-         <assert test="every $ref in tokenize(normalize-space(@localTypeDeclarationReference), '\s+') satisfies (not($ref = @id) and key('key-localType', $ref))">
+      <rule context="@localTypeDeclarationReference">
+         <assert test="every $ref in tokenize(normalize-space(.), '\s+') satisfies (not($ref = ../@id) and key('key-localType', $ref))">
             When you use the localTypeDeclarationReference attribute, it must be linked to a valid localTypeDeclaration element and cannot reference itself.
         </assert>
       </rule>
-      <rule context="*[@maintenanceEventReference]">
-         <assert test="every $ref in tokenize(normalize-space(@maintenanceEventReference), '\s+') satisfies (not($ref = @id) and key('key-maintenanceEvent', $ref))">
+      <rule context="@maintenanceEventReference">
+         <assert test="every $ref in tokenize(normalize-space(.), '\s+') satisfies (not($ref = ../@id) and key('key-maintenanceEvent', $ref))">
             When you use the maintenanceEventReference attribute, it must be linked to a valid maintenanceEvent element and cannot reference itself.
         </assert>
       </rule>
-      <rule context="*[@sourceReference]">
-         <assert test="every $ref in tokenize(normalize-space(@sourceReference), '\s+') satisfies (not($ref = @id) and key('key-source', $ref))">
+      <rule context="@sourceReference">
+         <assert test="every $ref in tokenize(normalize-space(.), '\s+') satisfies (not($ref = ../@id) and key('key-source', $ref))">
             When you use the sourceReference attribute, it must be linked to a valid source or citedRange element and cannot reference itself.
         </assert>
       </rule>
-      <rule context="*[@target]">
-         <assert test="every $target in tokenize(normalize-space(@target), '\s+') satisfies (not($target = @id) and key('key-any-id', $target))">
+      <rule context="@target">
+         <assert test="every $target in tokenize(normalize-space(.), '\s+') satisfies (not($target = ../@id) and key('key-any-id', $target))">
             When you use the target attribute, it must be linked to another element by means of the id attribute and cannot reference itself.
         </assert>
       </rule>
@@ -394,7 +391,7 @@ ts-eas@archivists.org-->
    </pattern>
    <pattern id="unique-ids">
       <rule context="*[@id]">
-         <assert test="count(key('id-key', @id)) = 1">
+         <assert test="count(key('key-any-id', @id)) = 1">
             This element does not have a unique value for its 'id' attribute. The ID '<value-of select="@id"/>' is already in use.
         </assert>
       </rule>
