@@ -19,8 +19,6 @@
     <xsl:key name="bcp47-variant-key" match="context[@name='bcp47']/subtags[@type='variant']" use="value"/>
     
     <xsl:key name="xhtml-element-key"  match="context[@name='xhtml-matrix']/xhtml-elements/element" use="@name" />
-    <xsl:key name="global-xhtml-attr-key" match="context[@name='xhtml-matrix']/global-attributes/attribute" use="@name" />
-    <xsl:key name="element-xhtml-attr-key" match="context[@name='xhtml-matrix']/xhtml-elements/element/attribute" use="concat(parent::element/@name, '|', @name)" />
     <!--
     Composite Key: 
         Here, we concatenate the list name and value (e.g., 'publicationStatus|approved') to prevent identical values in different lists from colliding and causing false positive validations.
