@@ -129,6 +129,7 @@
     
     <rule context="*:formattingExtension//*">
         <let name="el-name" value="local-name()"/>
+        <let name="ns" value="namespace-uri()"/>
         <assert test="$ns = ('http://www.w3.org/1999/xhtml', 'http://www.w3.org/1998/Math/MathML', 'http://www.w3.org/2000/svg')">
             The element &lt;<name/>&gt; must be in the XHTML, MathML, or SVG namespace.
         </assert>
