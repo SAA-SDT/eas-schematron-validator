@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-19T16:16:37.696Z
+2026-07-26T17:21:54.146Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
