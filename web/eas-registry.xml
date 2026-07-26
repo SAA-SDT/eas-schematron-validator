@@ -1,14 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <registry>
   <context name="xhtml-matrix">
-    <global-attributes>
-      <attribute name="id" />
-      <attribute name="class" />
-      <attribute name="title" />
-      <attribute name="lang" />
-      <attribute name="xml:lang" />
-      <attribute name="dir" />
-    </global-attributes>
     <xhtml-elements>
       <element name="h1" />
       <element name="h2" />
@@ -21,14 +13,8 @@
       <element name="br" />
       <element name="hr" />
       <element name="ul" />
-      <element name="ol">
-        <attribute name="start" />
-        <attribute name="type" />
-        <attribute name="reversed" />
-      </element>
-      <element name="li">
-        <attribute name="value" />
-      </element>
+      <element name="ol" />
+      <element name="li" />
       <element name="dl" />
       <element name="dt" />
       <element name="dd" />
@@ -38,22 +24,8 @@
       <element name="tbody" />
       <element name="tfoot" />
       <element name="tr" />
-      <element name="th">
-        <attribute name="abbr" />
-        <attribute name="axis" />
-        <attribute name="headers" />
-        <attribute name="colspan" />
-        <attribute name="rowspan" />
-        <attribute name="scope" />
-      </element>
-      <element name="td">
-        <attribute name="abbr" />
-        <attribute name="axis" />
-        <attribute name="headers" />
-        <attribute name="colspan" />
-        <attribute name="rowspan" />
-        <attribute name="scope" />
-      </element>
+      <element name="th" />
+      <element name="td" />
       <element name="em" />
       <element name="strong" />
       <element name="dfn" />
@@ -66,35 +38,12 @@
       <element name="b" />
       <element name="i" />
       <element name="small" />
-      <element name="blockquote">
-        <attribute name="cite" />
-      </element>
-      <element name="q">
-        <attribute name="cite" />
-      </element>
-      <element name="ins">
-        <attribute name="cite" />
-        <attribute name="datetime" />
-      </element>
-      <element name="del">
-        <attribute name="cite" />
-        <attribute name="datetime" />
-      </element>
-      <element name="a">
-        <attribute name="href" />
-        <attribute name="rel" />
-        <attribute name="target" />
-        <attribute name="type" />
-        <attribute name="name" />
-        <attribute name="hreflang" />
-      </element>
-      <element name="img">
-        <attribute name="src" />
-        <attribute name="alt" />
-        <attribute name="width" />
-        <attribute name="height" />
-        <attribute name="longdesc" />
-      </element>
+      <element name="blockquote" />
+      <element name="q" />
+      <element name="ins" />
+      <element name="del" />
+      <element name="a" />
+      <element name="img" />
       <element name="ruby" />
       <element name="rt" />
       <element name="rp" />

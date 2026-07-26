@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!--
 This schematron file has been generated automatically, and was last updated at: 
 
-2026-07-26T17:21:54.146Z
+2026-07-26T17:59:05.502Z
                         
 If you would like to contribute to this project, please see: 
 https://github.com/SAA-SDT/TS-EAS-subteam-notes/wiki/Contributing-to-the-EAS-standards
@@ -193,18 +193,12 @@ ts-eas@archivists.org-->
       </rule>
       <rule context="*:formattingExtension//*">
          <let name="el-name" value="local-name()"/>
-         <assert test="namespace-uri() = 'http://www.w3.org/1999/xhtml'">
-            The element &lt;<name/>&gt; must be in the XHTML namespace.
+         <let name="ns" value="namespace-uri()"/>
+         <assert test="$ns = ('http://www.w3.org/1999/xhtml', 'http://www.w3.org/1998/Math/MathML', 'http://www.w3.org/2000/svg')">
+            The element &lt;<name/>&gt; must be in the XHTML, MathML, or SVG namespace.
         </assert>
-         <assert test="exists(key('xhtml-element-key', $el-name, $registry))">
-            The element '&lt;<value-of select="$el-name"/>&gt;' is not permitted within formattingExtension.
-        </assert>
-      </rule>
-      <rule context="*:formattingExtension//@*">
-         <let name="attr-name" value="local-name()"/>
-         <let name="parent-name" value="local-name(..)"/>
-         <assert test="exists(key('global-xhtml-attr-key', $attr-name, $registry)) or              exists(key('element-xhmtl-attr-key', concat($parent-name, '|', $attr-name), $registry))">
-            The attribute '@<value-of select="$attr-name"/>' is not allowed on the &lt;<value-of select="$parent-name"/>&gt; element.
+         <assert test="$ns != 'http://www.w3.org/1999/xhtml' or exists(key('xhtml-element-key', $el-name, $registry))">
+            The XHTML element '&lt;<value-of select="$el-name"/>&gt;' is not permitted within formattingExtension.
         </assert>
       </rule>
       <rule context="(@languageCode | @languageOfElement)[$check-language-codes][$language-encoding eq 'iso639-1']">
@@ -464,14 +458,6 @@ ts-eas@archivists.org-->
    <xsl:variable name="registry">
       <registry xmlns="">
          <context name="xhtml-matrix">
-            <global-attributes>
-               <attribute name="id"/>
-               <attribute name="class"/>
-               <attribute name="title"/>
-               <attribute name="lang"/>
-               <attribute name="xml:lang"/>
-               <attribute name="dir"/>
-            </global-attributes>
             <xhtml-elements>
                <element name="h1"/>
                <element name="h2"/>
@@ -484,14 +470,8 @@ ts-eas@archivists.org-->
                <element name="br"/>
                <element name="hr"/>
                <element name="ul"/>
-               <element name="ol">
-                  <attribute name="start"/>
-                  <attribute name="type"/>
-                  <attribute name="reversed"/>
-               </element>
-               <element name="li">
-                  <attribute name="value"/>
-               </element>
+               <element name="ol"/>
+               <element name="li"/>
                <element name="dl"/>
                <element name="dt"/>
                <element name="dd"/>
@@ -501,22 +481,8 @@ ts-eas@archivists.org-->
                <element name="tbody"/>
                <element name="tfoot"/>
                <element name="tr"/>
-               <element name="th">
-                  <attribute name="abbr"/>
-                  <attribute name="axis"/>
-                  <attribute name="headers"/>
-                  <attribute name="colspan"/>
-                  <attribute name="rowspan"/>
-                  <attribute name="scope"/>
-               </element>
-               <element name="td">
-                  <attribute name="abbr"/>
-                  <attribute name="axis"/>
-                  <attribute name="headers"/>
-                  <attribute name="colspan"/>
-                  <attribute name="rowspan"/>
-                  <attribute name="scope"/>
-               </element>
+               <element name="th"/>
+               <element name="td"/>
                <element name="em"/>
                <element name="strong"/>
                <element name="dfn"/>
@@ -529,35 +495,12 @@ ts-eas@archivists.org-->
                <element name="b"/>
                <element name="i"/>
                <element name="small"/>
-               <element name="blockquote">
-                  <attribute name="cite"/>
-               </element>
-               <element name="q">
-                  <attribute name="cite"/>
-               </element>
-               <element name="ins">
-                  <attribute name="cite"/>
-                  <attribute name="datetime"/>
-               </element>
-               <element name="del">
-                  <attribute name="cite"/>
-                  <attribute name="datetime"/>
-               </element>
-               <element name="a">
-                  <attribute name="href"/>
-                  <attribute name="rel"/>
-                  <attribute name="target"/>
-                  <attribute name="type"/>
-                  <attribute name="name"/>
-                  <attribute name="hreflang"/>
-               </element>
-               <element name="img">
-                  <attribute name="src"/>
-                  <attribute name="alt"/>
-                  <attribute name="width"/>
-                  <attribute name="height"/>
-                  <attribute name="longdesc"/>
-               </element>
+               <element name="blockquote"/>
+               <element name="q"/>
+               <element name="ins"/>
+               <element name="del"/>
+               <element name="a"/>
+               <element name="img"/>
                <element name="ruby"/>
                <element name="rt"/>
                <element name="rp"/>
